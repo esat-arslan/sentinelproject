@@ -16,7 +16,7 @@ spec:
         app: frontend
     spec:
       containers:
-        - image: ghcr.io/esat-arslan/frontend-app:latest
+        - image: ghcr.io/esat-arslan/sentinelproject/frontend:latest
           name: frontend
           ports:
             - containerPort: 80

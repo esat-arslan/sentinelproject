@@ -1,5 +1,0 @@
-resources:
-  - backend-deployment.yaml
-images:
-  - name: ghcr.io/esat-arslan/backend-app
-    newTag: 1.0.1

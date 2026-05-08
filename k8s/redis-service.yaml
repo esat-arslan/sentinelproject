@@ -1,4 +1,3 @@
-# https://kubernetes.io/docs/concepts/services-networking/service/
 apiVersion: v1
 kind: Service
 metadata:
@@ -6,9 +5,9 @@ metadata:
   namespace: vote
 spec:
   selector:
-    app: redis 
+    app: redis
   ports:
-    - port: 6379
-    targetPort: 6379
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
 ---
-

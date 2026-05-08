@@ -16,7 +16,7 @@ spec:
         app: backend
     spec:
       containers:
-        - image: ghcr.io/esat-arslan/backend-app:latest
+        - image: ghcr.io/esat-arslan/sentinelproject/backend:latest
           name: backend
           env:
             - name: POSTGRES_USER

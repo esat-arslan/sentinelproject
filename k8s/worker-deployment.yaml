@@ -16,7 +16,7 @@ spec:
         app: worker
     spec:
       containers:
-        - image: ghcr.io/esat-arslan/worker-app:latest
+        - image: ghcr.io/esat-arslan/sentinelproject/worker:latest
           name: worker
           env:
             - name: REDIS_HOST

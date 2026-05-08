@@ -3,12 +3,12 @@ kind: Service
 metadata:
   labels:
     app: db
-  name: db
+  name: db-service
   namespace: vote
 spec:
   type: ClusterIP
   ports:
-    - name: "db-service"
+    - name: db
       port: 5432
       targetPort: 5432
   selector:
