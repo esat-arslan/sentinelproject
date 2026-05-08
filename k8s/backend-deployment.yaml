@@ -19,6 +19,8 @@ spec:
         - image: ghcr.io/esat-arslan/sentinelproject/backend:latest
           name: backend
           env:
+            - name: PYTHONUNBUFFERED
+              value: "1"
             - name: POSTGRES_USER
               value: "postgres"
             - name: REDIS_HOST

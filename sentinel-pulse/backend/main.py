@@ -7,7 +7,7 @@ from psycopg2.extras import RealDictCursor
 import os
 import time
 
-app = FastAPI()
+app = FastAPI(root_path="/api")
 
 # Add CORS middleware
 app.add_middleware(

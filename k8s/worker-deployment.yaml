@@ -19,6 +19,8 @@ spec:
         - image: ghcr.io/esat-arslan/sentinelproject/worker:latest
           name: worker
           env:
+            - name: PYTHONUNBUFFERED
+              value: "1"
             - name: REDIS_HOST
               value: "redis-service"
             - name: POSTGRES_USER

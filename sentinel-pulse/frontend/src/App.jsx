@@ -4,7 +4,7 @@ import axios from 'axios'
 function App() {
   const [results, setResults] = useState([])
   const [voted, setVoted] = useState(false)
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+  const API_URL = import.meta.env.VITE_API_URL || '/api'
 
   const fetchResults = async () => {
     try {
