@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: db
+  name: db
+  namespace: vote
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - image: postgres:16-alpine
+          name: db
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: REDIS_HOST
+              value: "redis-service"
+            - name: POSTGRES_DB
+              value: "pulse_db"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pulse-secrets
+                  key: postgres-password
+          ports:
+            - containerPort: 5432
+              name: postgres
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: db-storage
+      volumes:
+        - name: db-storage
+          persistentVolumeClaim:
+            claimName: db-pvc

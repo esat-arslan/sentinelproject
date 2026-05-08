@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: backend
+  name: backend
+  namespace: vote
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - image: ghcr.io/esat-arslan/backend-app:latest
+          name: backend
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: REDIS_HOST
+              value: "redis-service"
+            - name: POSTGRES_DB
+              value: "pulse_db"
+            - name: POSTGRES_HOST
+              value: "db-service"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pulse-secrets
+                  key: postgres-password
+          ports:
+            - containerPort: 8000
+              name: backend
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 2
+            periodSeconds: 5

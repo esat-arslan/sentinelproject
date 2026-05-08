@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: worker
+  name: worker
+  namespace: vote
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      containers:
+        - image: ghcr.io/esat-arslan/worker-app:latest
+          name: worker
+          env:
+            - name: REDIS_HOST
+              value: "redis-service"
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_DB
+              value: "pulse_db"
+            - name: POSTGRES_HOST
+              value: "db-service"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pulse-secrets
+                  key: postgres-password
+          ports:
+            - containerPort: 3000
+              name: worker
