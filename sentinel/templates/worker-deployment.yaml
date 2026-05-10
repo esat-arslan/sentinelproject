@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-worker
+  labels:
+    app: worker
+spec:
+  replicas: {{ .Values.worker.replicaCount | default .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      containers:
+        - name: worker
+          image: "{{ .Values.worker.image }}:{{ .Values.worker.tag }}"
+          env:
+            - name: PYTHONUNBUFFERED
+              value: "1"
+            - name: REDIS_HOST
+              value: "{{ .Release.Name }}-redis-service"
+            - name: POSTGRES_HOST
+              value: "{{ .Release.Name }}-db-service"
+            - name: POSTGRES_USER
+              value: {{ .Values.postgres.user | quote }}
+            - name: POSTGRES_DB
+              value: {{ .Values.postgres.db | quote }}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pulse-secrets
+                  key: postgres-password
+          ports:
+            - containerPort: {{ .Values.worker.port }}
+              name: worker

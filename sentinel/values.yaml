@@ -1,0 +1,44 @@
+# Global replica count (fallback)
+replicaCount: 2
+
+backend:
+  image: ghcr.io/esat-arslan/sentinelproject/backend
+  tag: latest
+  port: 8000
+  replicaCount: 2
+  service:
+    type: ClusterIP 
+    port: 80
+
+worker:
+  image: ghcr.io/esat-arslan/sentinelproject/worker
+  tag: latest
+  port: 3000
+  replicaCount: 3
+
+frontend:
+  image: ghcr.io/esat-arslan/sentinelproject/frontend
+  tag: latest
+  port: 80
+
+postgres:
+  image: postgres:16-alpine
+  db: pulse_db
+  user: postgres
+  storage: 1Gi
+
+redis:
+  image: redis:7-alpine
+  port: 6379
+
+ingress:
+  enabled: true
+  host: pulse.test
+  className: "traefik"
+
+frontendService:
+  type: NodePort
+  nodePort: 30005
+
+backendService:
+  nodePort: 30001
