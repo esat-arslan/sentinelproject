@@ -22,7 +22,8 @@ frontend:
   port: 80
 
 postgres:
-  image: postgres:16-alpine
+  enabled: false # Set to false to use Cloud DB
+  host: "terraform-20260511103850801300000001.cneqc6coe9mg.eu-north-1.rds.amazonaws.com" # RDS endpoint
   db: pulse_db
   user: postgres
   storage: 1Gi

@@ -24,7 +24,7 @@ REDIS_PORT = os.getenv("REDIS_PORT", 6379)
 DB_HOST = os.getenv("POSTGRES_HOST", "localhost")
 DB_NAME = os.getenv("POSTGRES_DB", "pulse_db")
 DB_USER = os.getenv("POSTGRES_USER", "postgres")
-DB_PASS = os.getenv("POSTGRES_PASSWORD", "password")
+DB_PASS = os.getenv("POSTGRES_PASSWORD")
 
 # Initialize Redis
 r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
