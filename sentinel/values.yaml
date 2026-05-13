@@ -23,7 +23,7 @@ frontend:
 
 postgres:
   enabled: false # Set to false to use Cloud DB
-  host: "terraform-20260511103850801300000001.cneqc6coe9mg.eu-north-1.rds.amazonaws.com" # RDS endpoint
+  host: "YOUR_RDS_ENDPOINT_HERE"
   db: pulse_db
   user: postgres
   storage: 1Gi
@@ -34,8 +34,8 @@ redis:
 
 ingress:
   enabled: true
-  host: pulse.test
-  className: "traefik"
+  host: "YOUR_LOAD_BALANCER_URL_HERE"
+  className: "nginx"
 
 frontendService:
   type: NodePort

@@ -1,24 +1,21 @@
 #!/bin/bash
 set -euo pipefail
 
-SECRET_NAME="pulse-secrets"
 NAMESPACE="vote"
-MANIFEST_DIR="$(dirname "$0")/../k8s"
-# Check if needed secrets has been set
-if ! kubectl get secret "$SECRET_NAME" -n "$NAMESPACE" >/dev/null 2>&1; then
-  echo "Error: '$SECRET_NAME' secret is missing in '$NAMESPACE'"
+
+if ! kubectl get secret pulse-secrets -n "$NAMESPACE" >/dev/null 2>&1; then
+  echo "Error: 'pulse-secrets' is missing. Run setup.sh first."
   exit 1
 fi
 
-echo "Applying manifests from $MANIFEST_DIR..."
-kubectl apply -f "$MANIFEST_DIR" -n "$NAMESPACE"
+echo "Deploying via Helm..."
+helm upgrade --install pulse ./sentinel -n "$NAMESPACE"
 
-echo "Waiting for vote-deployment to be ready.."
-
-if kubectl wait --for=condition=avaible --timeout=90s deployment/backend -n "$NAMESPACE"; then
-  echo "All pods are running."
+echo "Waiting for backend to be ready..."
+if kubectl wait --for=condition=available --timeout=120s deployment/pulse-backend -n "$NAMESPACE"; then
+  echo "Deployment successful!"
 else
-  echo "Error: deployment failed or timed out"
+  echo "Error: Deployment failed or timed out."
   kubectl get pods -n "$NAMESPACE"
   exit 1
 fi
